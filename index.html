@@ -8,7 +8,8 @@
 
   <style>
     :root {
-      --bg: #0f172a;
+      --bg1: #0f172a;
+      --bg2: #1e3a8a;
       --glass-bg: rgba(255, 255, 255, 0.12);
       --glass-border: rgba(255, 255, 255, 0.35);
       --text: #e6f1ff;
@@ -17,46 +18,49 @@
       --shadow: rgba(2, 8, 23, 0.65);
     }
 
+    * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: Poppins, sans-serif;
-      background: linear-gradient(135deg, #0b2342, #051424);
       color: var(--text);
+      overflow-x: hidden;
+      position: relative;
+      background: linear-gradient(-45deg, var(--bg1), var(--bg2), #0a192f, #0b2545);
+      background-size: 400% 400%;
+      animation: gradientBG 18s ease infinite;
     }
 
-    .wrap {
-      max-width: 1200px;
-      margin: auto;
-      padding: 24px;
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
     }
 
-    header.hero {
-      text-align: center;
-      margin-bottom: 40px;
+    /* floating bubbles */
+    .bubble {
+      position: absolute;
+      bottom: -150px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      animation: floatUp 20s linear infinite;
     }
-    header.hero h1 {
-      font-size: clamp(28px, 5vw, 46px);
-      font-weight: 800;
-      margin: 0 0 12px;
-    }
-    header.hero p {
-      color: var(--muted);
-    }
-
-    /* Grid layout: 3 cards then 2 cards */
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+    @keyframes floatUp {
+      from { transform: translateY(0) scale(1); opacity: 0.6;}
+      to { transform: translateY(-120vh) scale(1.3); opacity: 0;}
     }
 
-    /* Glassmorphic card */
+    .wrap { max-width: 1200px; margin: auto; padding: 24px; position: relative; z-index: 2; }
+
+    header.hero { text-align: center; margin-bottom: 40px; }
+    header.hero h1 { font-size: clamp(28px, 5vw, 46px); font-weight: 800; margin: 0 0 12px; }
+    header.hero p { color: var(--muted); }
+
+    /* Grids */
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+    /* Card */
     .card {
       border-radius: 20px;
       background: var(--glass-bg);
@@ -65,81 +69,102 @@
       -webkit-backdrop-filter: blur(24px) saturate(180%);
       padding: 20px;
       box-shadow: 0 20px 50px var(--shadow), inset 0 0 40px rgba(255,255,255,0.08);
-      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
       text-align: left;
       position: relative;
       overflow: hidden;
     }
-    .card::before {
-      content: "";
-      position: absolute;
-      top: -50%; left: -50%;
-      width: 200%; height: 200%;
-      background: radial-gradient(circle at top left, rgba(255,255,255,0.25), transparent 60%);
-      transform: rotate(25deg);
-      opacity: 0.2;
-    }
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 28px 70px rgba(2, 8, 23, 0.85), inset 0 0 60px rgba(255,255,255,0.12);
-      border-color: rgba(255,255,255,0.55);
-    }
+    .icon { font-size: 38px; margin-bottom: 10px; display: inline-block; color: var(--accent); text-shadow: 0 0 12px rgba(249, 115, 22, 0.6); }
+    h2 { margin: 0 0 10px; font-size: 20px; }
+    p { margin: 0 0 10px; color: var(--muted); font-size: 15px; }
+    ul { margin: 0 0 16px; padding-left: 18px; color: #dce7ff; font-size: 14px; }
+    li { margin: 6px 0; }
 
-    .icon {
-      font-size: 38px;
-      margin-bottom: 10px;
-      display: inline-block;
-      color: var(--accent);
-      text-shadow: 0 0 12px rgba(249, 115, 22, 0.6);
-    }
-    h2 {
-      margin: 0 0 10px;
-      font-size: 20px;
-    }
-    p {
-      margin: 0 0 10px;
-      color: var(--muted);
-      font-size: 15px;
-    }
-    ul {
-      margin: 0 0 16px;
-      padding-left: 18px;
-      color: #dce7ff;
-      font-size: 14px;
-    }
-    li {
-      margin: 6px 0;
-    }
+    footer { margin-top: 40px; text-align: center; color: var(--muted); }
 
-    .btn {
-      display: inline-block;
-      padding: 10px 18px;
-      border-radius: 999px;
+    /* Sticky Quiz Button */
+    .quiz-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
       background: var(--accent);
       color: #1a0d03;
       font-weight: 700;
-      text-decoration: none;
-      transition: background 0.2s ease, transform 0.2s ease;
+      padding: 14px 22px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      transition: transform 0.2s ease;
+      z-index: 3;
     }
-    .btn:hover {
-      background: #fb923c;
-      transform: scale(1.05);
-    }
+    .quiz-btn:hover { transform: scale(1.05); }
 
-    footer {
-      margin-top: 40px;
+    /* Modal */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .modal.active { visibility: visible; opacity: 1; }
+
+    .modal-content {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(28px) saturate(200%);
+      border-radius: 20px;
+      padding: 24px;
+      width: 90%;
+      max-width: 400px;
       text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      animation: popIn 0.3s ease;
+    }
+    @keyframes popIn { from {transform: scale(0.8); opacity:0;} to {transform: scale(1); opacity:1;} }
+
+    .modal h3 { margin: 0 0 16px; }
+    .modal a {
+      display: block;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.15);
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.2s ease;
+    }
+    .modal a:hover { background: var(--accent); color: #1a0d03; }
+    .close-btn {
+      margin-top: 12px;
+      background: transparent;
+      border: none;
       color: var(--muted);
+      cursor: pointer;
+      font-size: 14px;
     }
 
-    /* Responsive tweak: stack if screen < 400px */
-    @media (max-width: 399px) {
+    /* Responsive fallback for tiny screens */
+    @media (max-width: 400px) {
       .grid-3 { grid-template-columns: 1fr; }
       .grid-2 { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
+  <!-- Background bubbles -->
+  <div class="bubble" style="left:10%; width:40px; height:40px; animation-duration: 18s;"></div>
+  <div class="bubble" style="left:30%; width:20px; height:20px; animation-duration: 22s;"></div>
+  <div class="bubble" style="left:50%; width:60px; height:60px; animation-duration: 25s;"></div>
+  <div class="bubble" style="left:70%; width:25px; height:25px; animation-duration: 20s;"></div>
+  <div class="bubble" style="left:85%; width:35px; height:35px; animation-duration: 24s;"></div>
+
   <div class="wrap">
     <header class="hero">
       <h1>Discover AEIOU Behaviours</h1>
@@ -157,7 +182,6 @@
           <li>Stay resilient in fast-changing environments</li>
           <li>Embrace flexibility and small steps</li>
         </ul>
-        <a class="btn" href="quiz-agile.html">Take Quiz</a>
       </article>
 
       <article class="card">
@@ -169,7 +193,6 @@
           <li>Let evidence guide next steps</li>
           <li>Mistakes = learning opportunities</li>
         </ul>
-        <a class="btn" href="quiz-experimental.html">Take Quiz</a>
       </article>
 
       <article class="card">
@@ -181,7 +204,6 @@
           <li>Ask the right questions</li>
           <li>Interpret data clearly</li>
         </ul>
-        <a class="btn" href="quiz-data.html">Take Quiz</a>
       </article>
     </section>
 
@@ -196,7 +218,6 @@
           <li>Seek feedback and best practices</li>
           <li>Highlight bottlenecks</li>
         </ul>
-        <a class="btn" href="quiz-optimising.html">Take Quiz</a>
       </article>
 
       <article class="card">
@@ -208,7 +229,6 @@
           <li>Boost adoption by valuing users</li>
           <li>Listen, empathise, refine</li>
         </ul>
-        <a class="btn" href="quiz-user.html">Take Quiz</a>
       </article>
     </section>
 
@@ -217,8 +237,31 @@
     </footer>
   </div>
 
+  <!-- Sticky Quiz Button -->
+  <button class="quiz-btn" id="openQuiz">Take Quiz</button>
+
+  <!-- Modal -->
+  <div class="modal" id="quizModal">
+    <div class="modal-content">
+      <h3>Select a Behaviour Quiz</h3>
+      <a href="quiz-agile.html">⚡ Agile</a>
+      <a href="quiz-experimental.html">🧪 Experimental</a>
+      <a href="quiz-data.html">📊 Informed by Data</a>
+      <a href="quiz-optimising.html">⚙️ Optimising</a>
+      <a href="quiz-user.html">🎯 User-Centric</a>
+      <button class="close-btn" id="closeQuiz">Close</button>
+    </div>
+  </div>
+
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+    const openBtn = document.getElementById("openQuiz");
+    const modal = document.getElementById("quizModal");
+    const closeBtn = document.getElementById("closeQuiz");
+
+    openBtn.addEventListener("click", () => modal.classList.add("active"));
+    closeBtn.addEventListener("click", () => modal.classList.remove("active"));
+    modal.addEventListener("click", (e) => { if(e.target === modal) modal.classList.remove("active"); });
   </script>
 </body>
 </html>
