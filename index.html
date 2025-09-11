@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <style>
-    /* Mandai Value Seriff (swap src to your local woff2 if you have it) */
+    /* Mandai Value Seriff (swap src to your local woff2 if available) */
     @font-face {
       font-family: "Mandai Value Seriff";
       src: local("Mandai Value Seriff"), local("MandaiValueSeriff");
@@ -22,13 +22,11 @@
       --accent:#f97316; --accent2:#22d3ee;
       --shadow: rgba(2,8,23,0.65);
 
-      /* type scale */
-      --fs-body: clamp(16px, 2.9vw, 18px);     /* bigger on phones */
+      --fs-body: clamp(16px, 2.9vw, 18px);
       --fs-small: clamp(13.5px, 2.4vw, 15px);
       --fs-h2: clamp(18px, 3.4vw, 22px);
       --fs-hero: clamp(30px, 6vw, 46px);
 
-      /* layout spacing */
       --gap: 14px;
       --pad-card: 16px;
       --radius: 18px;
@@ -48,7 +46,7 @@
     }
     @keyframes gradientBG{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 
-    /* Bubbles */
+    /* Ambient bubbles */
     .bubble{position:absolute; bottom:-140px; border-radius:50%;
       background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), rgba(255,255,255,.08) 60%, transparent 70%);
       animation:floatUp linear infinite}
@@ -64,11 +62,9 @@
     }
     header.hero p{color:var(--muted); margin:.35rem 0 0; font-size:var(--fs-small)}
 
-    /* Grids: still 3 + 2 so everything is visible at once */
+    /* Grids: 3 + 2 */
     .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--gap); margin-bottom:var(--gap)}
     .grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:var(--gap)}
-
-    /* fallback for ultra-narrow devices */
     @media (max-width:360px){
       .grid-3{grid-template-columns:repeat(2,1fr)}
       .grid-2{grid-template-columns:repeat(2,1fr)}
@@ -82,36 +78,30 @@
       -webkit-backdrop-filter: blur(var(--blur)) saturate(185%);
       padding:var(--pad-card);
       box-shadow:0 18px 48px var(--shadow), inset 0 0 36px rgba(255,255,255,.1);
-      cursor: pointer;  /* hint: tap to expand on mobile */
       transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
     }
     .card:hover{transform:translateY(-4px); box-shadow:0 26px 70px rgba(2,8,23,.85); border-color:rgba(255,255,255,.55)}
 
-    .icon{font-size:clamp(26px, 4.5vw, 30px); display:inline-block; color:var(--accent); text-shadow:0 0 10px rgba(249,115,22,.55)}
-    h2{margin:6px 0 6px; font-size:var(--fs-h2)}
-    p, ul{margin:0; color:var(--muted); line-height:1.45}
-    p{font-size:var(--fs-small)}
-    ul{padding-left:18px; margin-top:6px; font-size:calc(var(--fs-small) * .98)}
-    li{margin:4px 0}
-
-    /* Anti-squish: clamp long content on phones; tap card to expand/collapse */
-    @media (max-width: 900px){
-      .card:not(.expanded) p{
-        display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
-      }
-      .card:not(.expanded) ul{
-        max-height:4.2em; overflow:hidden;
-      }
+    /* Letter badge */
+    .letter{
+      width:48px; height:48px; border-radius:10px; /* subtle square-ish */
+      display:inline-flex; align-items:center; justify-content:center;
+      font-weight:900; letter-spacing:.5px;
+      background:linear-gradient(135deg, var(--accent2), #60efff);
+      color:#062635;
+      box-shadow:0 8px 20px rgba(34,211,238,.35);
+      border:1px solid rgba(255,255,255,.45);
+      cursor:pointer; user-select:none; transition:transform .15s ease;
     }
-
-    .hint{
-      margin-top:8px; font-size:calc(var(--fs-small) * .92); color:#eaefff;
-      background:rgba(255,255,255,.12); padding:6px 8px; border-radius:12px
-    }
+    .letter:active{transform:scale(.96)}
+    .letter-wrap{display:flex; align-items:center; gap:10px; margin-bottom:6px}
+    .icon{font-size:clamp(22px,4.5vw,26px); color:var(--accent); text-shadow:0 0 10px rgba(249,115,22,.55)}
+    h2{margin:0; font-size:var(--fs-h2)}
+    p{margin:8px 0 0 0; color:var(--muted); line-height:1.45; font-size:var(--fs-small)}
 
     footer{margin-top:22px; text-align:center; color:var(--muted); font-size:calc(var(--fs-small) * .95)}
 
-    /* Sticky quiz button */
+    /* Sticky quiz button (MS Forms) */
     .quiz-btn{
       position:fixed; bottom:18px; right:18px; z-index:4;
       background:linear-gradient(135deg,var(--accent),#fb923c);
@@ -120,16 +110,35 @@
       font-size: clamp(14px, 3.8vw, 16px);
     }
 
-    /* Modal */
+    /* ====== MODALS ====== */
     .modal{position:fixed; inset:0; z-index:10; display:flex; align-items:center; justify-content:center;
       background:rgba(0,0,0,.62); visibility:hidden; opacity:0; transition:opacity .28s ease}
     .modal.active{visibility:visible; opacity:1}
+
+    /* SQUARED modal content (no rounded corners) */
     .modal-content{
-      width:min(92vw, 420px); background:var(--glass); border:1px solid var(--glass-border);
-      backdrop-filter:blur(28px) saturate(200%); border-radius:20px; padding:20px;
+      width:min(92vw, 520px);
+      background:var(--glass); border:1px solid var(--glass-border);
+      backdrop-filter:blur(30px) saturate(200%); border-radius:0;   /* <-- squared */
+      padding:20px 18px;
       box-shadow:0 24px 70px rgba(0,0,0,.55);
+      position:relative; animation:pop .24s ease;
     }
-    .modal h3{text-align:center; margin:0 0 14px; font-size:clamp(18px, 4.8vw, 22px)}
+    @keyframes pop{ from{transform:scale(.92); opacity:0} to{transform:scale(1); opacity:1} }
+
+    /* top-right close; also squared-ish */
+    .modal-close{
+      position:absolute; top:8px; right:8px;
+      width:38px; height:38px; border-radius:6px;   /* slightly squared */
+      display:inline-flex; align-items:center; justify-content:center;
+      background:rgba(255,255,255,.16); color:var(--text);
+      border:1px solid rgba(255,255,255,.3);
+      cursor:pointer; font-size:18px;
+    }
+
+    .modal h3{margin:8px 6px 4px; font-size:clamp(18px,5vw,22px)}
+    .modal p{margin:6px 6px 0; font-size:var(--fs-small); color:var(--muted); line-height:1.55}
+
     .chooser{display:grid; gap:10px}
     .chooser a{
       display:block; padding:12px; border-radius:12px;
@@ -138,12 +147,11 @@
       text-align:center;
     }
     .chooser a:hover{background:var(--accent); color:#1a0d03}
-    .close-x{margin-top:12px; background:transparent; border:none; color:var(--muted); cursor:pointer; font-size:var(--fs-small)}
   </style>
 </head>
 <body>
 
-  <!-- Floating bubbles -->
+  <!-- Background bubbles -->
   <div class="bubble" style="left:10%;width:34px;height:34px;animation-duration:20s"></div>
   <div class="bubble" style="left:28%;width:20px;height:20px;animation-duration:22s"></div>
   <div class="bubble" style="left:55%;width:50px;height:50px;animation-duration:25s"></div>
@@ -159,62 +167,82 @@
     <!-- AEI row -->
     <section class="grid-3">
       <article class="card">
-        <div class="icon">⚡</div>
-        <h2>Agile</h2>
-        <p>Agile is about staying flexible and adapting quickly when things change. It encourages us to break work into
-          smaller steps, review progress often, and adjust as new information comes in. This helps us stay resilient and
-          responsive in fast-moving situations.</p>
+        <div class="letter-wrap">
+          <button class="letter" data-key="agile" aria-label="Agile">A</button>
+          <h2>Agile</h2>
+          <span class="icon" aria-hidden="true">⚡</span>
+        </div>
+        <p id="desc-agile">Agile is about staying flexible and adapting quickly when things change. It encourages us to break work into smaller steps, review progress often, and adjust as new information comes in.</p>
       </article>
+
       <article class="card">
-        <div class="icon">🧪</div>
-        <h2>Experimental</h2>
-        <p>Being Experimental means creating a safe space to try out new ideas, test different approaches, and learn
-          from the results. Successes give us confidence, while failures provide valuable lessons that guide our next
-          move.</p>
+        <div class="letter-wrap">
+          <button class="letter" data-key="experimental" aria-label="Experimental">E</button>
+          <h2>Experimental</h2>
+          <span class="icon" aria-hidden="true">🧪</span>
+        </div>
+        <p id="desc-experimental">Being Experimental means creating a safe space to try new ideas, test different approaches, and learn from the results — successes build confidence, failures guide the next move.</p>
       </article>
+
       <article class="card">
-        <div class="icon">📊</div>
-        <h2>Informed by Data</h2>
-        <p>Informed by Data reminds us to use facts and insights as the foundation of our decisions. Instead of
-          guessing, we ask the right questions, look at patterns, and let evidence point us in the right direction.</p>
+        <div class="letter-wrap">
+          <button class="letter" data-key="data" aria-label="Informed by Data">I</button>
+          <h2>Informed by Data</h2>
+          <span class="icon" aria-hidden="true">📊</span>
+        </div>
+        <p id="desc-data">Informed by Data means using facts and insights as the basis for decisions. Ask clear questions, look for patterns, and let evidence point the way.</p>
       </article>
     </section>
 
     <!-- OU row -->
     <section class="grid-2">
       <article class="card">
-        <div class="icon">⚙️</div>
-        <h2>Optimising</h2>
-        <p>Optimising is about improving the way we work by removing inefficiencies and making processes smoother.
-          Small, continuous improvements compound over time, helping us deliver more value with less effort.</p>
+        <div class="letter-wrap">
+          <button class="letter" data-key="optimising" aria-label="Optimising">O</button>
+          <h2>Optimising</h2>
+          <span class="icon" aria-hidden="true">⚙️</span>
+        </div>
+        <p id="desc-optimising">Optimising focuses on removing friction and improving flow. Small, repeatable improvements compound to deliver more value with less effort.</p>
       </article>
+
       <article class="card">
-        <div class="icon">🎯</div>
-        <h2>User-Centric</h2>
-        <p>Being User-Centric means putting people at the heart of what we do. By listening, empathising, and testing
-          with real users, we create solutions that are relevant, intuitive, and impactful.</p>
+        <div class="letter-wrap">
+          <button class="letter" data-key="user" aria-label="User-Centric">U</button>
+          <h2>User-Centric</h2>
+          <span class="icon" aria-hidden="true">🎯</span>
+        </div>
+        <p id="desc-user">User-Centric means putting people at the heart of what we do. Listen, empathise, and test with real users to create relevant, intuitive, and impactful solutions.</p>
       </article>
     </section>
 
     <footer>© <span id="year"></span> AEIOU • Learning Festival</footer>
   </div>
 
-  <!-- Sticky quiz button -->
+  <!-- Sticky quiz button (MS Forms) -->
   <button class="quiz-btn" id="openQuiz">Take Quiz</button>
 
-  <!-- Modal with MS Forms links -->
-  <div class="modal" id="quizModal">
-    <div class="modal-content">
+  <!-- Squared Behaviour Info Modal -->
+  <div class="modal" id="infoModal" aria-modal="true" role="dialog">
+    <div class="modal-content" role="document">
+      <button class="modal-close" id="infoClose" aria-label="Close">×</button>
+      <h3 id="infoTitle">Behaviour</h3>
+      <p id="infoDesc">Description</p>
+    </div>
+  </div>
+
+  <!-- Quiz modal (unchanged) -->
+  <div class="modal" id="quizModal" aria-modal="true" role="dialog">
+    <div class="modal-content" role="document">
+      <button class="modal-close" id="quizClose" aria-label="Close">×</button>
       <h3>Select a Behaviour Quiz</h3>
       <div class="chooser">
-        <!-- Replace with your MS Forms links -->
+        <!-- Replace with your real MS Forms links -->
         <a href="https://forms.office.com/r/agileForm" target="_blank" rel="noopener">⚡ Agile</a>
         <a href="https://forms.office.com/r/experimentalForm" target="_blank" rel="noopener">🧪 Experimental</a>
         <a href="https://forms.office.com/r/dataForm" target="_blank" rel="noopener">📊 Informed by Data</a>
         <a href="https://forms.office.com/r/optimisingForm" target="_blank" rel="noopener">⚙️ Optimising</a>
         <a href="https://forms.office.com/r/userForm" target="_blank" rel="noopener">🎯 User-Centric</a>
       </div>
-      <button class="close-x" id="closeQuiz">Close</button>
     </div>
   </div>
 
@@ -222,18 +250,50 @@
     // Year
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Modal open/close
-    const modal = document.getElementById("quizModal");
-    document.getElementById("openQuiz").addEventListener("click", () => modal.classList.add("active"));
-    document.getElementById("closeQuiz").addEventListener("click", () => modal.classList.remove("active"));
-    modal.addEventListener("click", e => { if (e.target === modal) modal.classList.remove("active") });
+    // Helper to detect "phone" (you can tweak the breakpoint)
+    const isPhone = () => window.matchMedia("(max-width: 900px)").matches;
 
-    // Tap card to expand/collapse on mobile to avoid squeezed text
-    document.querySelectorAll(".card").forEach(card=>{
-      card.addEventListener("click", ()=>{
-        if (window.innerWidth <= 900) card.classList.toggle("expanded");
+    // Build behaviour data by reading the actual text under each card (so it's always in sync)
+    const behaviourMap = {
+      agile: { title: "Agile — Adapt Fast",  descEl: document.getElementById("desc-agile") },
+      experimental: { title: "Experimental — Try • Test • Learn", descEl: document.getElementById("desc-experimental") },
+      data: { title: "Informed by Data — Decide with Evidence",  descEl: document.getElementById("desc-data") },
+      optimising: { title: "Optimising — Improve the Flow",       descEl: document.getElementById("desc-optimising") },
+      user: { title: "User-Centric — Design for Real Needs",      descEl: document.getElementById("desc-user") }
+    };
+
+    // Info modal elements
+    const infoModal = document.getElementById("infoModal");
+    const infoTitle = document.getElementById("infoTitle");
+    const infoDesc  = document.getElementById("infoDesc");
+    const infoClose = document.getElementById("infoClose");
+
+    // Attach letter click handlers — only open modal on phones
+    document.querySelectorAll(".letter").forEach(btn=>{
+      btn.addEventListener("click", (e)=>{
+        if(!isPhone()) return; // laptops/desktops: do nothing
+        const key = e.currentTarget.dataset.key;
+        const data = behaviourMap[key];
+        if(!data) return;
+        infoTitle.textContent = data.title;
+        infoDesc.textContent  = (data.descEl?.textContent || "").trim();
+        infoModal.classList.add("active");
       });
     });
+
+    // Close behaviour modal
+    infoClose.addEventListener("click", ()=> infoModal.classList.remove("active"));
+    infoModal.addEventListener("click", (e)=>{ if(e.target===infoModal) infoModal.classList.remove("active"); });
+    window.addEventListener("keydown", (e)=>{ if(e.key==="Escape") infoModal.classList.remove("active"); });
+
+    // Quiz modal (MS Forms) — unchanged
+    const quizModal = document.getElementById("quizModal");
+    const quizOpen  = document.getElementById("openQuiz");
+    const quizClose = document.getElementById("quizClose");
+    quizOpen.addEventListener("click", ()=> quizModal.classList.add("active"));
+    quizClose.addEventListener("click", ()=> quizModal.classList.remove("active"));
+    quizModal.addEventListener("click", (e)=>{ if(e.target===quizModal) quizModal.classList.remove("active"); });
+    window.addEventListener("resize", ()=>{}); // keeps isPhone() live if you later add dynamic UI changes
   </script>
 </body>
 </html>
