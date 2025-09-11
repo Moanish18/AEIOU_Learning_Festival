@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -11,16 +12,21 @@
     @font-face {
       font-family: "Mandai Value Seriff";
       src: local("Mandai Value Seriff"), local("MandaiValueSeriff");
-      font-weight: 400; font-style: normal; font-display: swap;
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
     }
 
-    :root{
-      --bg1:#0f172a; --bg2:#1e3a8a;
-      --glass: rgba(255,255,255,0.12);
-      --glass-border: rgba(255,255,255,0.35);
-      --text:#e6f1ff; --muted:#c8d7ee;
-      --accent:#f97316; --accent2:#22d3ee;
-      --shadow: rgba(2,8,23,0.65);
+    :root {
+      --bg1: #0f172a;
+      --bg2: #1e3a8a;
+      --glass: rgba(255, 255, 255, 0.12);
+      --glass-border: rgba(255, 255, 255, 0.35);
+      --text: #e6f1ff;
+      --muted: #c8d7ee;
+      --accent: #f97316;
+      --accent2: #22d3ee;
+      --shadow: rgba(2, 8, 23, 0.65);
 
       /* fluid type base */
       --fs-body: clamp(16px, 3.6vw, 18px);
@@ -34,136 +40,375 @@
       --blur: 26px;
     }
 
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:"Mandai Value Seriff", Georgia, serif;
-      color:var(--text);
-      background:linear-gradient(-45deg, var(--bg1), var(--bg2), #0a192f, #0b2545);
-      background-size:400% 400%;
-      animation:gradientBG 18s ease infinite;
-      overflow-x:hidden;
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: "Mandai Value Seriff", Georgia, serif;
+      color: var(--text);
+      background: linear-gradient(-45deg, var(--bg1), var(--bg2), #0a192f, #0b2545);
+      background-size: 400% 400%;
+      animation: gradientBG 18s ease infinite;
+      overflow-x: hidden;
       font-size: var(--fs-body);
     }
-    @keyframes gradientBG{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+    @keyframes gradientBG {
+      0% {
+        background-position: 0% 50%
+      }
+
+      50% {
+        background-position: 100% 50%
+      }
+
+      100% {
+        background-position: 0% 50%
+      }
+    }
 
     /* Ambient bubbles */
-    .bubble{position:absolute; bottom:-140px; border-radius:50%;
-      background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), rgba(255,255,255,.08) 60%, transparent 70%);
-      animation:floatUp linear infinite}
-    @keyframes floatUp{from{transform:translateY(0) scale(1); opacity:.6} to{transform:translateY(-120vh) scale(1.2); opacity:0}}
-
-    .wrap{max-width:1200px; margin:auto; padding:24px; position:relative; z-index:2}
-
-    header.hero{text-align:center; margin-bottom:28px}
-    header.hero h1{
-      margin:0; font-weight:800; font-size:var(--fs-hero);
-      background:linear-gradient(90deg,#fff,#cfe9ff,#fff);
-      -webkit-background-clip:text; background-clip:text; color:transparent;
+    .bubble {
+      position: absolute;
+      bottom: -140px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, .25), rgba(255, 255, 255, .08) 60%, transparent 70%);
+      animation: floatUp linear infinite
     }
-    header.hero p{color:var(--muted); margin:.5rem 0 0; font-size:var(--fs-small)}
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(0) scale(1);
+        opacity: .6
+      }
+
+      to {
+        transform: translateY(-120vh) scale(1.2);
+        opacity: 0
+      }
+    }
+
+    .wrap {
+      max-width: 1200px;
+      margin: auto;
+      padding: 24px;
+      position: relative;
+      z-index: 2
+    }
+
+    header.hero {
+      text-align: center;
+      margin-bottom: 28px
+    }
+
+    header.hero h1 {
+      margin: 0;
+      font-weight: 800;
+      font-size: var(--fs-hero);
+      background: linear-gradient(90deg, #fff, #cfe9ff, #fff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    header.hero p {
+      color: var(--muted);
+      margin: .5rem 0 0;
+      font-size: var(--fs-small)
+    }
 
     /* ====== DESKTOP/TABLET (default): full cards ====== */
-    .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--gap); margin-bottom:var(--gap)}
-    .grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:var(--gap)}
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--gap);
+      margin-bottom: var(--gap)
+    }
 
-    .card{
-      position:relative; overflow:hidden; border-radius:var(--radius);
-      background:var(--glass); border:1px solid var(--glass-border);
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--gap)
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
       backdrop-filter: blur(var(--blur)) saturate(185%);
       -webkit-backdrop-filter: blur(var(--blur)) saturate(185%);
-      padding:var(--pad-card);
-      box-shadow:0 18px 48px var(--shadow), inset 0 0 36px rgba(255,255,255,.1);
+      padding: var(--pad-card);
+      box-shadow: 0 18px 48px var(--shadow), inset 0 0 36px rgba(255, 255, 255, .1);
       transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
     }
-    .card:hover{transform:translateY(-4px); box-shadow:0 26px 70px rgba(2,8,23,.85); border-color:rgba(255,255,255,.55)}
 
-    .letter-wrap{display:flex; align-items:center; gap:10px; margin-bottom:6px}
-    .letter{
-      width:52px; height:52px; border-radius:10px;
-      display:inline-flex; align-items:center; justify-content:center;
-      font-weight:900; letter-spacing:.5px; font-size:22px;
-      background:linear-gradient(135deg, var(--accent2), #60efff);
-      color:#062635; box-shadow:0 8px 20px rgba(34,211,238,.35);
-      border:1px solid rgba(255,255,255,.45);
-      cursor:pointer; user-select:none; transition:transform .15s ease;
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 26px 70px rgba(2, 8, 23, .85);
+      border-color: rgba(255, 255, 255, .55)
     }
-    .letter:active{transform:scale(.96)}
-    .icon{font-size:clamp(22px,3.6vw,26px); color:var(--accent); text-shadow:0 0 10px rgba(249,115,22,.55)}
-    h2{margin:0; font-size:var(--fs-h2)}
-    p{margin:8px 0 0 0; color:var(--muted); line-height:1.55; font-size:var(--fs-small)}
 
-    footer{margin-top:22px; text-align:center; color:var(--muted); font-size:calc(var(--fs-small) * .95)}
+    .letter-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px
+    }
+
+    .letter {
+      width: 52px;
+      height: 52px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      letter-spacing: .5px;
+      font-size: 22px;
+      background: linear-gradient(135deg, var(--accent2), #60efff);
+      color: #062635;
+      box-shadow: 0 8px 20px rgba(34, 211, 238, .35);
+      border: 1px solid rgba(255, 255, 255, .45);
+      cursor: pointer;
+      user-select: none;
+      transition: transform .15s ease;
+    }
+
+    .letter:active {
+      transform: scale(.96)
+    }
+
+    .icon {
+      font-size: clamp(22px, 3.6vw, 26px);
+      color: var(--accent);
+      text-shadow: 0 0 10px rgba(249, 115, 22, .55)
+    }
+
+    h2 {
+      margin: 0;
+      font-size: var(--fs-h2)
+    }
+
+    p {
+      margin: 8px 0 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: var(--fs-small)
+    }
+
+    footer {
+      margin-top: 22px;
+      text-align: center;
+      color: var(--muted);
+      font-size: calc(var(--fs-small) * .95)
+    }
 
     /* ====== PHONE (≤600px): tile mode to stop the squeeze ====== */
-    @media (max-width: 600px){
-      .wrap{padding:18px}
-      :root{ --gap: 12px; }
+    @media (max-width: 600px) {
+      .wrap {
+        padding: 18px
+      }
+
+      :root {
+        --gap: 12px;
+      }
 
       /* Keep 3 + 2, but each is a TILE (big letter + label only) */
-      .grid-3{grid-template-columns:repeat(3,1fr)}
-      .grid-2{grid-template-columns:repeat(2,1fr)}
+      .grid-3 {
+        grid-template-columns: repeat(3, 1fr)
+      }
 
-      .card{
-        padding:12px; min-height:110px;
-        display:flex; flex-direction:column; align-items:center; justify-content:center;
-        text-align:center;
+      .grid-2 {
+        grid-template-columns: repeat(2, 1fr)
       }
-      .letter-wrap{flex-direction:column; gap:8px; margin:0}
-      .letter{
-        width:64px; height:64px; font-size:26px; border-radius:12px;
+
+      /* --- Fix Experimental tile sizing on phones only --- */
+      .card[data-key="experimental"] {
+        min-height: 120px;
+        /* a bit taller than others */
       }
-      h2{font-size:clamp(16px, 4.5vw, 18px); margin:0}
-      .icon{display:none}         /* hide tiny icons on tiles */
-      .card p{display:none}       /* hide paragraphs on the tile to avoid crowding */
+
+      .card[data-key="experimental"] .letter {
+        width: 60px;
+        height: 60px;
+        /* slightly smaller letter badge */
+        font-size: 24px;
+      }
+
+      .card[data-key="experimental"] h2 {
+        font-size: clamp(15px, 4vw, 17px);
+        /* nudge heading down a notch */
+        line-height: 1.2;
+        overflow-wrap: anywhere;
+        /* allow clean wrapping */
+        hyphens: auto;
+      }
+
+      .card {
+        padding: 12px;
+        min-height: 110px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .letter-wrap {
+        flex-direction: column;
+        gap: 8px;
+        margin: 0
+      }
+
+      .letter {
+        width: 64px;
+        height: 64px;
+        font-size: 26px;
+        border-radius: 12px;
+      }
+
+      h2 {
+        font-size: clamp(16px, 4.5vw, 18px);
+        margin: 0
+      }
+
+      .icon {
+        display: none
+      }
+
+      /* hide tiny icons on tiles */
+      .card p {
+        display: none
+      }
+
+      /* hide paragraphs on the tile to avoid crowding */
 
       /* Make entire tile tappable to open modal */
-      .card{cursor:pointer}
+      .card {
+        cursor: pointer
+      }
     }
 
     /* Sticky quiz button (MS Forms) */
-    .quiz-btn{
-      position:fixed; bottom:18px; right:18px; z-index:4;
-      background:linear-gradient(135deg,var(--accent),#fb923c);
-      color:#1a0d03; font-weight:800; border:none; cursor:pointer;
-      border-radius:999px; padding:14px 20px; box-shadow:0 16px 40px rgba(0,0,0,.45);
+    .quiz-btn {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      z-index: 4;
+      background: linear-gradient(135deg, var(--accent), #fb923c);
+      color: #1a0d03;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 14px 20px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, .45);
       font-size: clamp(14px, 4vw, 16px);
     }
 
     /* ====== SQUARED modal for behaviour details (phones only) ====== */
-    .modal{position:fixed; inset:0; z-index:10; display:flex; align-items:center; justify-content:center;
-      background:rgba(0,0,0,.62); visibility:hidden; opacity:0; transition:opacity .28s ease}
-    .modal.active{visibility:visible; opacity:1}
-    .modal-content{
-      width:min(92vw, 520px);
-      background:var(--glass); border:1px solid var(--glass-border);
-      backdrop-filter:blur(30px) saturate(200%); border-radius:0;  /* squared */
-      padding:20px 18px; box-shadow:0 24px 70px rgba(0,0,0,.55);
-      position:relative; animation:pop .24s ease;
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, .62);
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity .28s ease
     }
-    @keyframes pop{ from{transform:scale(.92); opacity:0} to{transform:scale(1); opacity:1} }
-    .modal-close{
-      position:absolute; top:8px; right:8px;
-      width:40px; height:40px; border-radius:6px;
-      display:inline-flex; align-items:center; justify-content:center;
-      background:rgba(255,255,255,.16); color:var(--text);
-      border:1px solid rgba(255,255,255,.3);
-      cursor:pointer; font-size:20px;
+
+    .modal.active {
+      visibility: visible;
+      opacity: 1
     }
-    .modal h3{margin:8px 6px 6px; font-size:clamp(18px,5.2vw,22px)}
-    .modal p{margin:6px 6px 0; font-size:clamp(15px, 4.2vw, 17px); color:var(--muted); line-height:1.6}
+
+    .modal-content {
+      width: min(92vw, 520px);
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(30px) saturate(200%);
+      border-radius: 0;
+      /* squared */
+      padding: 20px 18px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .55);
+      position: relative;
+      animation: pop .24s ease;
+    }
+
+    @keyframes pop {
+      from {
+        transform: scale(.92);
+        opacity: 0
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1
+      }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, .16);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, .3);
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    .modal h3 {
+      margin: 8px 6px 6px;
+      font-size: clamp(18px, 5.2vw, 22px)
+    }
+
+    .modal p {
+      margin: 6px 6px 0;
+      font-size: clamp(15px, 4.2vw, 17px);
+      color: var(--muted);
+      line-height: 1.6
+    }
 
     /* Quiz chooser modal (unchanged style) */
-    .chooser{display:grid; gap:10px}
-    .chooser a{
-      display:block; padding:12px; border-radius:12px;
-      background:rgba(255,255,255,.15); color:var(--text); text-decoration:none; font-weight:700;
-      transition:background .2s ease; font-size: clamp(14px, 4.2vw, 16px);
-      text-align:center;
+    .chooser {
+      display: grid;
+      gap: 10px
     }
-    .chooser a:hover{background:var(--accent); color:#1a0d03}
+
+    .chooser a {
+      display: block;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .15);
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 700;
+      transition: background .2s ease;
+      font-size: clamp(14px, 4.2vw, 16px);
+      text-align: center;
+    }
+
+    .chooser a:hover {
+      background: var(--accent);
+      color: #1a0d03
+    }
   </style>
 </head>
+
 <body>
 
   <!-- Background bubbles -->
@@ -187,7 +432,8 @@
           <h2>Agile</h2>
           <span class="icon" aria-hidden="true">⚡</span>
         </div>
-        <p id="desc-agile">Agile is about staying flexible and adapting quickly when things change. It encourages us to break work into smaller steps, review progress often, and adjust as new information comes in.</p>
+        <p id="desc-agile">Agile is about staying flexible and adapting quickly when things change. It encourages us to
+          break work into smaller steps, review progress often, and adjust as new information comes in.</p>
       </article>
 
       <article class="card" data-key="experimental">
@@ -196,7 +442,8 @@
           <h2>Experimental</h2>
           <span class="icon" aria-hidden="true">🧪</span>
         </div>
-        <p id="desc-experimental">Being Experimental means creating a safe space to try new ideas, test different approaches, and learn from the results — successes build confidence, failures guide the next move.</p>
+        <p id="desc-experimental">Being Experimental means creating a safe space to try new ideas, test different
+          approaches, and learn from the results — successes build confidence, failures guide the next move.</p>
       </article>
 
       <article class="card" data-key="data">
@@ -205,7 +452,8 @@
           <h2>Informed by Data</h2>
           <span class="icon" aria-hidden="true">📊</span>
         </div>
-        <p id="desc-data">Informed by Data means using facts and insights as the basis for decisions. Ask clear questions, look for patterns, and let evidence point the way.</p>
+        <p id="desc-data">Informed by Data means using facts and insights as the basis for decisions. Ask clear
+          questions, look for patterns, and let evidence point the way.</p>
       </article>
     </section>
 
@@ -217,7 +465,8 @@
           <h2>Optimising</h2>
           <span class="icon" aria-hidden="true">⚙️</span>
         </div>
-        <p id="desc-optimising">Optimising focuses on removing friction and improving flow. Small, repeatable improvements compound to deliver more value with less effort.</p>
+        <p id="desc-optimising">Optimising focuses on removing friction and improving flow. Small, repeatable
+          improvements compound to deliver more value with less effort.</p>
       </article>
 
       <article class="card" data-key="user">
@@ -226,7 +475,8 @@
           <h2>User-Centricity</h2>
           <span class="icon" aria-hidden="true">🎯</span>
         </div>
-        <p id="desc-user">User-Centricity means putting people at the heart of what we do. Listen, empathise, and test with real users to create relevant, intuitive, and impactful solutions.</p>
+        <p id="desc-user">User-Centricity means putting people at the heart of what we do. Listen, empathise, and test
+          with real users to create relevant, intuitive, and impactful solutions.</p>
       </article>
     </section>
 
@@ -270,58 +520,59 @@
 
     // Behaviour map reads actual paragraph text (keeps content in one place)
     const behaviourMap = {
-      agile: { title: "Agile — Adapt Fast",  descEl: document.getElementById("desc-agile") },
+      agile: { title: "Agile — Adapt Fast", descEl: document.getElementById("desc-agile") },
       experimental: { title: "Experimental — Try • Test • Learn", descEl: document.getElementById("desc-experimental") },
-      data: { title: "Informed by Data — Decide with Evidence",  descEl: document.getElementById("desc-data") },
-      optimising: { title: "Optimising — Improve the Flow",       descEl: document.getElementById("desc-optimising") },
-      user: { title: "User-Centric — Design for Real Needs",      descEl: document.getElementById("desc-user") }
+      data: { title: "Informed by Data — Decide with Evidence", descEl: document.getElementById("desc-data") },
+      optimising: { title: "Optimising — Improve the Flow", descEl: document.getElementById("desc-optimising") },
+      user: { title: "User-Centric — Design for Real Needs", descEl: document.getElementById("desc-user") }
     };
 
     // Info modal elements
     const infoModal = document.getElementById("infoModal");
     const infoTitle = document.getElementById("infoTitle");
-    const infoDesc  = document.getElementById("infoDesc");
+    const infoDesc = document.getElementById("infoDesc");
     const infoClose = document.getElementById("infoClose");
 
     // Open modal when: 1) letter tapped, or 2) tile tapped (phones only)
-    function handleOpenInfo(key){
+    function handleOpenInfo(key) {
       const data = behaviourMap[key];
-      if(!data) return;
+      if (!data) return;
       infoTitle.textContent = data.title;
-      infoDesc.textContent  = (data.descEl?.textContent || "").trim();
+      infoDesc.textContent = (data.descEl?.textContent || "").trim();
       infoModal.classList.add("active");
     }
 
     // Letter buttons
-    document.querySelectorAll(".letter").forEach(btn=>{
-      btn.addEventListener("click", (e)=>{
-        if(!isPhone()) return;
+    document.querySelectorAll(".letter").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        if (!isPhone()) return;
         handleOpenInfo(e.currentTarget.dataset.key);
         e.stopPropagation();
       });
     });
 
     // Entire tile tappable on phone
-    document.querySelectorAll(".card").forEach(tile=>{
-      tile.addEventListener("click", (e)=>{
-        if(!isPhone()) return;
+    document.querySelectorAll(".card").forEach(tile => {
+      tile.addEventListener("click", (e) => {
+        if (!isPhone()) return;
         const key = tile.dataset.key;
-        if(key) handleOpenInfo(key);
+        if (key) handleOpenInfo(key);
       });
     });
 
     // Close behaviour modal
-    infoClose.addEventListener("click", ()=> infoModal.classList.remove("active"));
-    infoModal.addEventListener("click", (e)=>{ if(e.target===infoModal) infoModal.classList.remove("active"); });
-    window.addEventListener("keydown", (e)=>{ if(e.key==="Escape") infoModal.classList.remove("active"); });
+    infoClose.addEventListener("click", () => infoModal.classList.remove("active"));
+    infoModal.addEventListener("click", (e) => { if (e.target === infoModal) infoModal.classList.remove("active"); });
+    window.addEventListener("keydown", (e) => { if (e.key === "Escape") infoModal.classList.remove("active"); });
 
     // Quiz modal (MS Forms)
     const quizModal = document.getElementById("quizModal");
-    const quizOpen  = document.getElementById("openQuiz");
+    const quizOpen = document.getElementById("openQuiz");
     const quizClose = document.getElementById("quizClose");
-    quizOpen.addEventListener("click", ()=> quizModal.classList.add("active"));
-    quizClose.addEventListener("click", ()=> quizModal.classList.remove("active"));
-    quizModal.addEventListener("click", (e)=>{ if(e.target===quizModal) quizModal.classList.remove("active"); });
+    quizOpen.addEventListener("click", () => quizModal.classList.add("active"));
+    quizClose.addEventListener("click", () => quizModal.classList.remove("active"));
+    quizModal.addEventListener("click", (e) => { if (e.target === quizModal) quizModal.classList.remove("active"); });
   </script>
 </body>
+
 </html>
