@@ -22,10 +22,11 @@
       --accent:#f97316; --accent2:#22d3ee;
       --shadow: rgba(2,8,23,0.65);
 
-      --fs-body: clamp(16px, 2.9vw, 18px);
-      --fs-small: clamp(13.5px, 2.4vw, 15px);
-      --fs-h2: clamp(18px, 3.4vw, 22px);
-      --fs-hero: clamp(30px, 6vw, 46px);
+      /* fluid type base */
+      --fs-body: clamp(16px, 3.6vw, 18px);
+      --fs-small: clamp(14px, 3.2vw, 15px);
+      --fs-h2: clamp(18px, 4vw, 22px);
+      --fs-hero: clamp(30px, 7vw, 46px);
 
       --gap: 14px;
       --pad-card: 16px;
@@ -60,17 +61,12 @@
       background:linear-gradient(90deg,#fff,#cfe9ff,#fff);
       -webkit-background-clip:text; background-clip:text; color:transparent;
     }
-    header.hero p{color:var(--muted); margin:.35rem 0 0; font-size:var(--fs-small)}
+    header.hero p{color:var(--muted); margin:.5rem 0 0; font-size:var(--fs-small)}
 
-    /* Grids: 3 + 2 */
+    /* ====== DESKTOP/TABLET (default): full cards ====== */
     .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--gap); margin-bottom:var(--gap)}
     .grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:var(--gap)}
-    @media (max-width:360px){
-      .grid-3{grid-template-columns:repeat(2,1fr)}
-      .grid-2{grid-template-columns:repeat(2,1fr)}
-    }
 
-    /* Card */
     .card{
       position:relative; overflow:hidden; border-radius:var(--radius);
       background:var(--glass); border:1px solid var(--glass-border);
@@ -82,24 +78,48 @@
     }
     .card:hover{transform:translateY(-4px); box-shadow:0 26px 70px rgba(2,8,23,.85); border-color:rgba(255,255,255,.55)}
 
-    /* Letter badge */
+    .letter-wrap{display:flex; align-items:center; gap:10px; margin-bottom:6px}
     .letter{
-      width:48px; height:48px; border-radius:10px; /* subtle square-ish */
+      width:52px; height:52px; border-radius:10px;
       display:inline-flex; align-items:center; justify-content:center;
-      font-weight:900; letter-spacing:.5px;
+      font-weight:900; letter-spacing:.5px; font-size:22px;
       background:linear-gradient(135deg, var(--accent2), #60efff);
-      color:#062635;
-      box-shadow:0 8px 20px rgba(34,211,238,.35);
+      color:#062635; box-shadow:0 8px 20px rgba(34,211,238,.35);
       border:1px solid rgba(255,255,255,.45);
       cursor:pointer; user-select:none; transition:transform .15s ease;
     }
     .letter:active{transform:scale(.96)}
-    .letter-wrap{display:flex; align-items:center; gap:10px; margin-bottom:6px}
-    .icon{font-size:clamp(22px,4.5vw,26px); color:var(--accent); text-shadow:0 0 10px rgba(249,115,22,.55)}
+    .icon{font-size:clamp(22px,3.6vw,26px); color:var(--accent); text-shadow:0 0 10px rgba(249,115,22,.55)}
     h2{margin:0; font-size:var(--fs-h2)}
-    p{margin:8px 0 0 0; color:var(--muted); line-height:1.45; font-size:var(--fs-small)}
+    p{margin:8px 0 0 0; color:var(--muted); line-height:1.55; font-size:var(--fs-small)}
 
     footer{margin-top:22px; text-align:center; color:var(--muted); font-size:calc(var(--fs-small) * .95)}
+
+    /* ====== PHONE (≤600px): tile mode to stop the squeeze ====== */
+    @media (max-width: 600px){
+      .wrap{padding:18px}
+      :root{ --gap: 12px; }
+
+      /* Keep 3 + 2, but each is a TILE (big letter + label only) */
+      .grid-3{grid-template-columns:repeat(3,1fr)}
+      .grid-2{grid-template-columns:repeat(2,1fr)}
+
+      .card{
+        padding:12px; min-height:110px;
+        display:flex; flex-direction:column; align-items:center; justify-content:center;
+        text-align:center;
+      }
+      .letter-wrap{flex-direction:column; gap:8px; margin:0}
+      .letter{
+        width:64px; height:64px; font-size:26px; border-radius:12px;
+      }
+      h2{font-size:clamp(16px, 4.5vw, 18px); margin:0}
+      .icon{display:none}         /* hide tiny icons on tiles */
+      .card p{display:none}       /* hide paragraphs on the tile to avoid crowding */
+
+      /* Make entire tile tappable to open modal */
+      .card{cursor:pointer}
+    }
 
     /* Sticky quiz button (MS Forms) */
     .quiz-btn{
@@ -107,38 +127,33 @@
       background:linear-gradient(135deg,var(--accent),#fb923c);
       color:#1a0d03; font-weight:800; border:none; cursor:pointer;
       border-radius:999px; padding:14px 20px; box-shadow:0 16px 40px rgba(0,0,0,.45);
-      font-size: clamp(14px, 3.8vw, 16px);
+      font-size: clamp(14px, 4vw, 16px);
     }
 
-    /* ====== MODALS ====== */
+    /* ====== SQUARED modal for behaviour details (phones only) ====== */
     .modal{position:fixed; inset:0; z-index:10; display:flex; align-items:center; justify-content:center;
       background:rgba(0,0,0,.62); visibility:hidden; opacity:0; transition:opacity .28s ease}
     .modal.active{visibility:visible; opacity:1}
-
-    /* SQUARED modal content (no rounded corners) */
     .modal-content{
       width:min(92vw, 520px);
       background:var(--glass); border:1px solid var(--glass-border);
-      backdrop-filter:blur(30px) saturate(200%); border-radius:0;   /* <-- squared */
-      padding:20px 18px;
-      box-shadow:0 24px 70px rgba(0,0,0,.55);
+      backdrop-filter:blur(30px) saturate(200%); border-radius:0;  /* squared */
+      padding:20px 18px; box-shadow:0 24px 70px rgba(0,0,0,.55);
       position:relative; animation:pop .24s ease;
     }
     @keyframes pop{ from{transform:scale(.92); opacity:0} to{transform:scale(1); opacity:1} }
-
-    /* top-right close; also squared-ish */
     .modal-close{
       position:absolute; top:8px; right:8px;
-      width:38px; height:38px; border-radius:6px;   /* slightly squared */
+      width:40px; height:40px; border-radius:6px;
       display:inline-flex; align-items:center; justify-content:center;
       background:rgba(255,255,255,.16); color:var(--text);
       border:1px solid rgba(255,255,255,.3);
-      cursor:pointer; font-size:18px;
+      cursor:pointer; font-size:20px;
     }
+    .modal h3{margin:8px 6px 6px; font-size:clamp(18px,5.2vw,22px)}
+    .modal p{margin:6px 6px 0; font-size:clamp(15px, 4.2vw, 17px); color:var(--muted); line-height:1.6}
 
-    .modal h3{margin:8px 6px 4px; font-size:clamp(18px,5vw,22px)}
-    .modal p{margin:6px 6px 0; font-size:var(--fs-small); color:var(--muted); line-height:1.55}
-
+    /* Quiz chooser modal (unchanged style) */
     .chooser{display:grid; gap:10px}
     .chooser a{
       display:block; padding:12px; border-radius:12px;
@@ -153,7 +168,7 @@
 
   <!-- Background bubbles -->
   <div class="bubble" style="left:10%;width:34px;height:34px;animation-duration:20s"></div>
-  <div class="bubble" style="left:28%;width:20px;height:20px;animation-duration:22s"></div>
+  <div class="bubble" style="left:28%;width:22px;height:22px;animation-duration:22s"></div>
   <div class="bubble" style="left:55%;width:50px;height:50px;animation-duration:25s"></div>
   <div class="bubble" style="left:78%;width:26px;height:26px;animation-duration:24s"></div>
   <div class="bubble" style="left:90%;width:38px;height:38px;animation-duration:28s"></div>
@@ -166,7 +181,7 @@
 
     <!-- AEI row -->
     <section class="grid-3">
-      <article class="card">
+      <article class="card" data-key="agile">
         <div class="letter-wrap">
           <button class="letter" data-key="agile" aria-label="Agile">A</button>
           <h2>Agile</h2>
@@ -175,7 +190,7 @@
         <p id="desc-agile">Agile is about staying flexible and adapting quickly when things change. It encourages us to break work into smaller steps, review progress often, and adjust as new information comes in.</p>
       </article>
 
-      <article class="card">
+      <article class="card" data-key="experimental">
         <div class="letter-wrap">
           <button class="letter" data-key="experimental" aria-label="Experimental">E</button>
           <h2>Experimental</h2>
@@ -184,7 +199,7 @@
         <p id="desc-experimental">Being Experimental means creating a safe space to try new ideas, test different approaches, and learn from the results — successes build confidence, failures guide the next move.</p>
       </article>
 
-      <article class="card">
+      <article class="card" data-key="data">
         <div class="letter-wrap">
           <button class="letter" data-key="data" aria-label="Informed by Data">I</button>
           <h2>Informed by Data</h2>
@@ -196,7 +211,7 @@
 
     <!-- OU row -->
     <section class="grid-2">
-      <article class="card">
+      <article class="card" data-key="optimising">
         <div class="letter-wrap">
           <button class="letter" data-key="optimising" aria-label="Optimising">O</button>
           <h2>Optimising</h2>
@@ -205,13 +220,13 @@
         <p id="desc-optimising">Optimising focuses on removing friction and improving flow. Small, repeatable improvements compound to deliver more value with less effort.</p>
       </article>
 
-      <article class="card">
+      <article class="card" data-key="user">
         <div class="letter-wrap">
           <button class="letter" data-key="user" aria-label="User-Centric">U</button>
-          <h2>User-Centric</h2>
+          <h2>User-Centricity</h2>
           <span class="icon" aria-hidden="true">🎯</span>
         </div>
-        <p id="desc-user">User-Centric means putting people at the heart of what we do. Listen, empathise, and test with real users to create relevant, intuitive, and impactful solutions.</p>
+        <p id="desc-user">User-Centricity means putting people at the heart of what we do. Listen, empathise, and test with real users to create relevant, intuitive, and impactful solutions.</p>
       </article>
     </section>
 
@@ -221,7 +236,7 @@
   <!-- Sticky quiz button (MS Forms) -->
   <button class="quiz-btn" id="openQuiz">Take Quiz</button>
 
-  <!-- Squared Behaviour Info Modal -->
+  <!-- Behaviour info modal (squared) -->
   <div class="modal" id="infoModal" aria-modal="true" role="dialog">
     <div class="modal-content" role="document">
       <button class="modal-close" id="infoClose" aria-label="Close">×</button>
@@ -230,18 +245,18 @@
     </div>
   </div>
 
-  <!-- Quiz modal (unchanged) -->
+  <!-- Quiz modal -->
   <div class="modal" id="quizModal" aria-modal="true" role="dialog">
     <div class="modal-content" role="document">
       <button class="modal-close" id="quizClose" aria-label="Close">×</button>
       <h3>Select a Behaviour Quiz</h3>
       <div class="chooser">
         <!-- Replace with your real MS Forms links -->
-        <a href="https://forms.office.com/r/agileForm" target="_blank" rel="noopener">⚡ Agile</a>
-        <a href="https://forms.office.com/r/experimentalForm" target="_blank" rel="noopener">🧪 Experimental</a>
-        <a href="https://forms.office.com/r/dataForm" target="_blank" rel="noopener">📊 Informed by Data</a>
-        <a href="https://forms.office.com/r/optimisingForm" target="_blank" rel="noopener">⚙️ Optimising</a>
-        <a href="https://forms.office.com/r/userForm" target="_blank" rel="noopener">🎯 User-Centric</a>
+        <a href="https://forms.office.com/r/k94HhzZa4e" target="_blank" rel="noopener">⚡ Agile</a>
+        <a href="https://forms.office.com/r/qSR3jwtffz" target="_blank" rel="noopener">🧪 Experimental</a>
+        <a href="https://forms.office.com/r/G57tUg4BhC" target="_blank" rel="noopener">📊 Informed by Data</a>
+        <a href="https://forms.office.com/r/BgpDCZarzZ" target="_blank" rel="noopener">⚙️ Optimising</a>
+        <a href="https://forms.office.com/r/feEjZMWS6d" target="_blank" rel="noopener">🎯 User-Centricity</a>
       </div>
     </div>
   </div>
@@ -250,10 +265,10 @@
     // Year
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Helper to detect "phone" (you can tweak the breakpoint)
-    const isPhone = () => window.matchMedia("(max-width: 900px)").matches;
+    // Helpers
+    const isPhone = () => window.matchMedia("(max-width: 600px)").matches;
 
-    // Build behaviour data by reading the actual text under each card (so it's always in sync)
+    // Behaviour map reads actual paragraph text (keeps content in one place)
     const behaviourMap = {
       agile: { title: "Agile — Adapt Fast",  descEl: document.getElementById("desc-agile") },
       experimental: { title: "Experimental — Try • Test • Learn", descEl: document.getElementById("desc-experimental") },
@@ -268,16 +283,30 @@
     const infoDesc  = document.getElementById("infoDesc");
     const infoClose = document.getElementById("infoClose");
 
-    // Attach letter click handlers — only open modal on phones
+    // Open modal when: 1) letter tapped, or 2) tile tapped (phones only)
+    function handleOpenInfo(key){
+      const data = behaviourMap[key];
+      if(!data) return;
+      infoTitle.textContent = data.title;
+      infoDesc.textContent  = (data.descEl?.textContent || "").trim();
+      infoModal.classList.add("active");
+    }
+
+    // Letter buttons
     document.querySelectorAll(".letter").forEach(btn=>{
       btn.addEventListener("click", (e)=>{
-        if(!isPhone()) return; // laptops/desktops: do nothing
-        const key = e.currentTarget.dataset.key;
-        const data = behaviourMap[key];
-        if(!data) return;
-        infoTitle.textContent = data.title;
-        infoDesc.textContent  = (data.descEl?.textContent || "").trim();
-        infoModal.classList.add("active");
+        if(!isPhone()) return;
+        handleOpenInfo(e.currentTarget.dataset.key);
+        e.stopPropagation();
+      });
+    });
+
+    // Entire tile tappable on phone
+    document.querySelectorAll(".card").forEach(tile=>{
+      tile.addEventListener("click", (e)=>{
+        if(!isPhone()) return;
+        const key = tile.dataset.key;
+        if(key) handleOpenInfo(key);
       });
     });
 
@@ -286,14 +315,13 @@
     infoModal.addEventListener("click", (e)=>{ if(e.target===infoModal) infoModal.classList.remove("active"); });
     window.addEventListener("keydown", (e)=>{ if(e.key==="Escape") infoModal.classList.remove("active"); });
 
-    // Quiz modal (MS Forms) — unchanged
+    // Quiz modal (MS Forms)
     const quizModal = document.getElementById("quizModal");
     const quizOpen  = document.getElementById("openQuiz");
     const quizClose = document.getElementById("quizClose");
     quizOpen.addEventListener("click", ()=> quizModal.classList.add("active"));
     quizClose.addEventListener("click", ()=> quizModal.classList.remove("active"));
     quizModal.addEventListener("click", (e)=>{ if(e.target===quizModal) quizModal.classList.remove("active"); });
-    window.addEventListener("resize", ()=>{}); // keeps isPhone() live if you later add dynamic UI changes
   </script>
 </body>
 </html>
