@@ -7,75 +7,133 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
   <style>
-    :root{
+    :root {
       --bg: #0f172a;
-      --glass-bg: rgba(255,255,255,0.08);
-      --glass-border: rgba(255,255,255,0.18);
+      --glass-bg: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.18);
       --text: #e6f1ff;
-      --muted:#c8d7ee;
-      --accent:#f97316;
-      --shadow: rgba(2,8,23,0.5);
+      --muted: #c8d7ee;
+      --accent: #f97316;
+      --shadow: rgba(2, 8, 23, 0.5);
     }
 
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:Poppins, sans-serif;
-      background:linear-gradient(135deg,#0b2342,#051424);
-      color:var(--text);
+    body {
+      margin: 0;
+      font-family: Poppins, sans-serif;
+      background: linear-gradient(135deg, #0b2342, #051424);
+      color: var(--text);
     }
 
-    .wrap{max-width:1200px;margin:auto;padding:24px}
-
-    header.hero{text-align:center;margin-bottom:40px}
-    header.hero h1{font-size:clamp(28px,5vw,46px);font-weight:800;margin:0 0 12px}
-    header.hero p{color:var(--muted)}
-
-    /* Force fixed column grids */
-    .grid-3{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:20px;
-    }
-    .grid-2{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:20px;
-      margin-top:20px;
+    .wrap {
+      max-width: 1200px;
+      margin: auto;
+      padding: 24px;
     }
 
-    .card{
-      border-radius:20px;
-      background:var(--glass-bg);
-      border:1px solid var(--glass-border);
-      backdrop-filter:blur(16px) saturate(150%);
-      -webkit-backdrop-filter:blur(16px) saturate(150%);
-      padding:20px;
-      box-shadow:0 12px 40px var(--shadow);
-      transition:transform .3s ease, box-shadow .3s ease;
-      text-align:left;
+    header.hero {
+      text-align: center;
+      margin-bottom: 40px;
     }
-    .card:hover{transform:translateY(-6px);box-shadow:0 20px 60px var(--shadow)}
-
-    .icon{font-size:36px;margin-bottom:10px;display:inline-block;color:var(--accent)}
-    h2{margin:0 0 10px;font-size:20px}
-    p{margin:0 0 10px;color:var(--muted);font-size:15px}
-    ul{margin:0 0 16px;padding-left:18px;color:#dce7ff;font-size:14px}
-    li{margin:6px 0}
-
-    .btn{
-      display:inline-block;
-      padding:10px 18px;
-      border-radius:999px;
-      background:var(--accent);
-      color:#1a0d03;
-      font-weight:700;
-      text-decoration:none;
-      transition:background .2s ease;
+    header.hero h1 {
+      font-size: clamp(28px, 5vw, 46px);
+      font-weight: 800;
+      margin: 0 0 12px;
     }
-    .btn:hover{background:#fb923c}
+    header.hero p {
+      color: var(--muted);
+    }
 
-    footer{margin-top:40px;text-align:center;color:var(--muted)}
+    /* Glassy card */
+    .card {
+      border-radius: 20px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px) saturate(150%);
+      -webkit-backdrop-filter: blur(16px) saturate(150%);
+      padding: 20px;
+      box-shadow: 0 12px 40px var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-align: left;
+      scroll-snap-align: center;
+      flex: 0 0 85%;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px var(--shadow);
+    }
+    .icon {
+      font-size: 36px;
+      margin-bottom: 10px;
+      display: inline-block;
+      color: var(--accent);
+    }
+    h2 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+    p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    ul {
+      margin: 0 0 16px;
+      padding-left: 18px;
+      color: #dce7ff;
+      font-size: 14px;
+    }
+    li {
+      margin: 6px 0;
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #1a0d03;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+    .btn:hover {
+      background: #fb923c;
+    }
+
+    /* Scrollable rows for phones */
+    .row {
+      overflow-x: auto;
+      display: flex;
+      gap: 16px;
+      padding: 10px 4px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Desktop/tablet grid layout */
+    @media (min-width: 900px) {
+      .row {
+        display: grid;
+        overflow-x: visible;
+        scroll-snap-type: none;
+      }
+      .row.aei {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      .row.ou {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+      .card {
+        flex: unset;
+      }
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--muted);
+    }
   </style>
 </head>
 <body>
@@ -85,9 +143,9 @@
       <p>Agile • Experimental • Informed by Data • Optimising • User-Centric</p>
     </header>
 
-    <!-- AEI Behaviours (3 fixed columns) -->
-    <section class="grid-3">
-      <div class="card">
+    <!-- AEI row -->
+    <section class="row aei" aria-label="AEI behaviours">
+      <article class="card">
         <div class="icon">⚡</div>
         <h2>Agile</h2>
         <p>Adapt quickly to change, respond to new information, and adjust approaches.</p>
@@ -97,9 +155,9 @@
           <li>Embrace flexibility and small steps</li>
         </ul>
         <a class="btn" href="quiz-agile.html">Take Quiz</a>
-      </div>
+      </article>
 
-      <div class="card">
+      <article class="card">
         <div class="icon">🧪</div>
         <h2>Experimental</h2>
         <p>Foster a culture of innovation, explore possibilities, and learn from outcomes.</p>
@@ -109,9 +167,9 @@
           <li>Mistakes = learning opportunities</li>
         </ul>
         <a class="btn" href="quiz-experimental.html">Take Quiz</a>
-      </div>
+      </article>
 
-      <div class="card">
+      <article class="card">
         <div class="icon">📊</div>
         <h2>Informed by Data</h2>
         <p>Ground decisions in facts, trends, and meaningful insights.</p>
@@ -121,12 +179,12 @@
           <li>Interpret data clearly</li>
         </ul>
         <a class="btn" href="quiz-data.html">Take Quiz</a>
-      </div>
+      </article>
     </section>
 
-    <!-- OU Behaviours (2 fixed columns) -->
-    <section class="grid-2">
-      <div class="card">
+    <!-- OU row -->
+    <section class="row ou" aria-label="OU behaviours">
+      <article class="card">
         <div class="icon">⚙️</div>
         <h2>Optimising</h2>
         <p>Improve processes, remove inefficiencies, and deliver more value.</p>
@@ -136,9 +194,9 @@
           <li>Highlight bottlenecks</li>
         </ul>
         <a class="btn" href="quiz-optimising.html">Take Quiz</a>
-      </div>
+      </article>
 
-      <div class="card">
+      <article class="card">
         <div class="icon">🎯</div>
         <h2>User-Centric</h2>
         <p>Put user needs at the heart of design and delivery.</p>
@@ -148,7 +206,7 @@
           <li>Listen, empathise, refine</li>
         </ul>
         <a class="btn" href="quiz-user.html">Take Quiz</a>
-      </div>
+      </article>
     </section>
 
     <footer>
@@ -157,7 +215,7 @@
   </div>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
