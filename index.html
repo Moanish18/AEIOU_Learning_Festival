@@ -1,169 +1,280 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AEIOU Behaviours — Learning Festival</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <style>
+    /* Mandai Value Seriff font (replace src with actual file if you have it) */
+    @font-face {
+      font-family: "Mandai Value Seriff";
+      src: local("Mandai Value Seriff"), local("MandaiValueSeriff");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
     :root {
       --bg1: #0f172a;
       --bg2: #1e3a8a;
-      --glass-bg: rgba(255, 255, 255, 0.12);
+      --glass: rgba(255, 255, 255, 0.12);
       --glass-border: rgba(255, 255, 255, 0.35);
       --text: #e6f1ff;
       --muted: #c8d7ee;
       --accent: #f97316;
+      --accent2: #22d3ee;
       --shadow: rgba(2, 8, 23, 0.65);
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box
+    }
 
     body {
       margin: 0;
-      font-family: Poppins, sans-serif;
+      font-family: "Mandai Value Seriff", Georgia, serif;
       color: var(--text);
-      overflow-x: hidden;
-      position: relative;
       background: linear-gradient(-45deg, var(--bg1), var(--bg2), #0a192f, #0b2545);
       background-size: 400% 400%;
       animation: gradientBG 18s ease infinite;
+      overflow-x: hidden;
     }
 
     @keyframes gradientBG {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
+      0% {
+        background-position: 0% 50%
+      }
+
+      50% {
+        background-position: 100% 50%
+      }
+
+      100% {
+        background-position: 0% 50%
+      }
     }
 
-    /* floating bubbles */
+    /* Floating bubbles */
     .bubble {
       position: absolute;
-      bottom: -150px;
-      background: rgba(255,255,255,0.1);
+      bottom: -140px;
       border-radius: 50%;
-      animation: floatUp 20s linear infinite;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, .25), rgba(255, 255, 255, .08) 60%, transparent 70%);
+      animation: floatUp linear infinite;
     }
+
     @keyframes floatUp {
-      from { transform: translateY(0) scale(1); opacity: 0.6;}
-      to { transform: translateY(-120vh) scale(1.3); opacity: 0;}
+      from {
+        transform: translateY(0) scale(1);
+        opacity: .6
+      }
+
+      to {
+        transform: translateY(-120vh) scale(1.2);
+        opacity: 0
+      }
     }
 
-    .wrap { max-width: 1200px; margin: auto; padding: 24px; position: relative; z-index: 2; }
+    .wrap {
+      max-width: 1200px;
+      margin: auto;
+      padding: 24px;
+      position: relative;
+      z-index: 2
+    }
 
-    header.hero { text-align: center; margin-bottom: 40px; }
-    header.hero h1 { font-size: clamp(28px, 5vw, 46px); font-weight: 800; margin: 0 0 12px; }
-    header.hero p { color: var(--muted); }
+    header.hero {
+      text-align: center;
+      margin-bottom: 26px
+    }
 
-    /* Grids */
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
-    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    header.hero h1 {
+      font-weight: 800;
+      margin: 0;
+      font-size: clamp(28px, 5vw, 46px);
+      background: linear-gradient(90deg, #fff, #cfe9ff, #fff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
 
-    /* Card */
+    header.hero p {
+      color: var(--muted);
+      margin: .35rem 0 0
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 12px
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px
+    }
+
+    @media(max-width:360px) {
+      .grid-3 {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .grid-2 {
+        grid-template-columns: repeat(2, 1fr)
+      }
+    }
+
     .card {
-      border-radius: 20px;
-      background: var(--glass-bg);
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      background: var(--glass);
       border: 1px solid var(--glass-border);
       backdrop-filter: blur(24px) saturate(180%);
       -webkit-backdrop-filter: blur(24px) saturate(180%);
-      padding: 20px;
-      box-shadow: 0 20px 50px var(--shadow), inset 0 0 40px rgba(255,255,255,0.08);
-      text-align: left;
-      position: relative;
-      overflow: hidden;
+      padding: 14px 14px 16px;
+      box-shadow: 0 18px 48px var(--shadow), inset 0 0 36px rgba(255, 255, 255, .1);
     }
-    .icon { font-size: 38px; margin-bottom: 10px; display: inline-block; color: var(--accent); text-shadow: 0 0 12px rgba(249, 115, 22, 0.6); }
-    h2 { margin: 0 0 10px; font-size: 20px; }
-    p { margin: 0 0 10px; color: var(--muted); font-size: 15px; }
-    ul { margin: 0 0 16px; padding-left: 18px; color: #dce7ff; font-size: 14px; }
-    li { margin: 6px 0; }
 
-    footer { margin-top: 40px; text-align: center; color: var(--muted); }
+    .icon {
+      font-size: 26px;
+      display: inline-block;
+      color: var(--accent);
+      text-shadow: 0 0 10px rgba(249, 115, 22, .55)
+    }
 
-    /* Sticky Quiz Button */
+    h2 {
+      margin: 6px 0 6px;
+      font-size: 18px
+    }
+
+    p,
+    ul {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.35
+    }
+
+    ul {
+      padding-left: 16px;
+      margin-top: 6px
+    }
+
+    li {
+      margin: 4px 0
+    }
+
+    .hint {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #eaefff;
+      background: rgba(255, 255, 255, .12);
+      padding: 6px 8px;
+      border-radius: 12px
+    }
+
+    footer {
+      margin-top: 22px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px
+    }
+
+    /* Sticky quiz button */
     .quiz-btn {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: var(--accent);
+      bottom: 18px;
+      right: 18px;
+      z-index: 4;
+      background: linear-gradient(135deg, var(--accent), #fb923c);
       color: #1a0d03;
-      font-weight: 700;
-      padding: 14px 22px;
-      border-radius: 999px;
+      font-weight: 800;
       border: none;
       cursor: pointer;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-      transition: transform 0.2s ease;
-      z-index: 3;
+      border-radius: 999px;
+      padding: 14px 20px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, .45);
     }
-    .quiz-btn:hover { transform: scale(1.05); }
 
     /* Modal */
     .modal {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.6);
+      z-index: 10;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 10;
+      background: rgba(0, 0, 0, .62);
       visibility: hidden;
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: opacity .3s ease
     }
-    .modal.active { visibility: visible; opacity: 1; }
+
+    .modal.active {
+      visibility: visible;
+      opacity: 1
+    }
 
     .modal-content {
-      background: var(--glass-bg);
+      width: min(92vw, 400px);
+      background: var(--glass);
       border: 1px solid var(--glass-border);
       backdrop-filter: blur(28px) saturate(200%);
       border-radius: 20px;
-      padding: 24px;
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-      animation: popIn 0.3s ease;
+      padding: 20px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .55);
     }
-    @keyframes popIn { from {transform: scale(0.8); opacity:0;} to {transform: scale(1); opacity:1;} }
 
-    .modal h3 { margin: 0 0 16px; }
-    .modal a {
+    .modal h3 {
+      text-align: center;
+      margin: 0 0 14px
+    }
+
+    .chooser {
+      display: grid;
+      gap: 10px
+    }
+
+    .chooser a {
       display: block;
-      margin: 8px 0;
       padding: 10px;
       border-radius: 12px;
-      background: rgba(255,255,255,0.15);
+      background: rgba(255, 255, 255, .15);
       color: var(--text);
       text-decoration: none;
       font-weight: 600;
-      transition: background 0.2s ease;
+      transition: background .2s ease
     }
-    .modal a:hover { background: var(--accent); color: #1a0d03; }
-    .close-btn {
+
+    .chooser a:hover {
+      background: var(--accent);
+      color: #1a0d03
+    }
+
+    .close-x {
       margin-top: 12px;
       background: transparent;
       border: none;
       color: var(--muted);
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    /* Responsive fallback for tiny screens */
-    @media (max-width: 400px) {
-      .grid-3 { grid-template-columns: 1fr; }
-      .grid-2 { grid-template-columns: 1fr; }
+      cursor: pointer
     }
   </style>
 </head>
+
 <body>
-  <!-- Background bubbles -->
-  <div class="bubble" style="left:10%; width:40px; height:40px; animation-duration: 18s;"></div>
-  <div class="bubble" style="left:30%; width:20px; height:20px; animation-duration: 22s;"></div>
-  <div class="bubble" style="left:50%; width:60px; height:60px; animation-duration: 25s;"></div>
-  <div class="bubble" style="left:70%; width:25px; height:25px; animation-duration: 20s;"></div>
-  <div class="bubble" style="left:85%; width:35px; height:35px; animation-duration: 24s;"></div>
+
+  <!-- Floating bubbles -->
+  <div class="bubble" style="left:10%;width:34px;height:34px;animation-duration:20s"></div>
+  <div class="bubble" style="left:28%;width:20px;height:20px;animation-duration:22s"></div>
+  <div class="bubble" style="left:55%;width:50px;height:50px;animation-duration:25s"></div>
+  <div class="bubble" style="left:78%;width:26px;height:26px;animation-duration:24s"></div>
+  <div class="bubble" style="left:90%;width:38px;height:38px;animation-duration:28s"></div>
 
   <div class="wrap">
     <header class="hero">
@@ -176,34 +287,22 @@
       <article class="card">
         <div class="icon">⚡</div>
         <h2>Agile</h2>
-        <p>Adapt quickly to change, respond to new information, and adjust approaches.</p>
-        <ul>
-          <li>Practise Agile in projects or daily ops</li>
-          <li>Stay resilient in fast-changing environments</li>
-          <li>Embrace flexibility and small steps</li>
-        </ul>
+        <p>Agile is about staying flexible and adapting quickly when things change. It encourages us to break work into
+          smaller steps, review progress often, and adjust as new information comes in. This helps us stay resilient and
+          responsive in fast-moving situations.</p>
       </article>
-
       <article class="card">
         <div class="icon">🧪</div>
         <h2>Experimental</h2>
-        <p>Foster a culture of innovation, explore possibilities, and learn from outcomes.</p>
-        <ul>
-          <li>Prototype and run experiments</li>
-          <li>Let evidence guide next steps</li>
-          <li>Mistakes = learning opportunities</li>
-        </ul>
+        <p>Being Experimental means creating a safe space to try out new ideas, test different approaches, and learn
+          from the results. Successes give us confidence, while failures provide valuable lessons that guide our next
+          move.</p>
       </article>
-
       <article class="card">
         <div class="icon">📊</div>
         <h2>Informed by Data</h2>
-        <p>Ground decisions in facts, trends, and meaningful insights.</p>
-        <ul>
-          <li>Use analytics and surveys</li>
-          <li>Ask the right questions</li>
-          <li>Interpret data clearly</li>
-        </ul>
+        <p>Informed by Data reminds us to use facts and insights as the foundation of our decisions. Instead of
+          guessing, we ask the right questions, look at patterns, and let evidence point us in the right direction.</p>
       </article>
     </section>
 
@@ -212,56 +311,46 @@
       <article class="card">
         <div class="icon">⚙️</div>
         <h2>Optimising</h2>
-        <p>Improve processes, remove inefficiencies, and deliver more value.</p>
-        <ul>
-          <li>Streamline workflows</li>
-          <li>Seek feedback and best practices</li>
-          <li>Highlight bottlenecks</li>
-        </ul>
+        <p>Optimising is about improving the way we work by removing inefficiencies and making processes smoother.
+          Small, continuous improvements compound over time, helping us deliver more value with less effort.</p>
       </article>
-
       <article class="card">
         <div class="icon">🎯</div>
         <h2>User-Centric</h2>
-        <p>Put user needs at the heart of design and delivery.</p>
-        <ul>
-          <li>Make solutions intuitive and relevant</li>
-          <li>Boost adoption by valuing users</li>
-          <li>Listen, empathise, refine</li>
-        </ul>
+        <p>Being User-Centric means putting people at the heart of what we do. By listening, empathising, and testing
+          with real users, we create solutions that are relevant, intuitive, and impactful.</p>
       </article>
     </section>
 
-    <footer>
-      © <span id="year"></span> AEIOU • Learning Festival
-    </footer>
+    <footer>© <span id="year"></span> AEIOU • Learning Festival</footer>
   </div>
 
-  <!-- Sticky Quiz Button -->
+  <!-- Sticky quiz button -->
   <button class="quiz-btn" id="openQuiz">Take Quiz</button>
 
-  <!-- Modal -->
+  <!-- Modal with links -->
   <div class="modal" id="quizModal">
     <div class="modal-content">
       <h3>Select a Behaviour Quiz</h3>
-      <a href="quiz-agile.html">⚡ Agile</a>
-      <a href="quiz-experimental.html">🧪 Experimental</a>
-      <a href="quiz-data.html">📊 Informed by Data</a>
-      <a href="quiz-optimising.html">⚙️ Optimising</a>
-      <a href="quiz-user.html">🎯 User-Centric</a>
-      <button class="close-btn" id="closeQuiz">Close</button>
+      <div class="chooser">
+        <!-- Replace these hrefs with your MS Forms links -->
+        <a href="https://forms.office.com/r/agileForm" target="_blank">⚡ Agile</a>
+        <a href="https://forms.office.com/r/experimentalForm" target="_blank">🧪 Experimental</a>
+        <a href="https://forms.office.com/r/dataForm" target="_blank">📊 Informed by Data</a>
+        <a href="https://forms.office.com/r/optimisingForm" target="_blank">⚙️ Optimising</a>
+        <a href="https://forms.office.com/r/userForm" target="_blank">🎯 User-Centric</a>
+      </div>
+      <button class="close-x" id="closeQuiz">Close</button>
     </div>
   </div>
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
-    const openBtn = document.getElementById("openQuiz");
     const modal = document.getElementById("quizModal");
-    const closeBtn = document.getElementById("closeQuiz");
-
-    openBtn.addEventListener("click", () => modal.classList.add("active"));
-    closeBtn.addEventListener("click", () => modal.classList.remove("active"));
-    modal.addEventListener("click", (e) => { if(e.target === modal) modal.classList.remove("active"); });
+    document.getElementById("openQuiz").addEventListener("click", () => modal.classList.add("active"));
+    document.getElementById("closeQuiz").addEventListener("click", () => modal.classList.remove("active"));
+    modal.addEventListener("click", e => { if (e.target === modal) modal.classList.remove("active") });
   </script>
 </body>
+
 </html>
